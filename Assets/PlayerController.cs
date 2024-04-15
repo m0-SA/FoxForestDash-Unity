@@ -155,6 +155,20 @@ public class PlayerController : MonoBehaviour
                 lowJumpMultiplier * Time.deltaTime;
         }
 
+        // left mouse click to trigger attack 1. if in air, will trigger end animation to transition into falling.
+        if (Input.GetMouseButtonDown(0))
+        {
+            animator.SetTrigger("attack1");
+
+            if (!isGrounded)
+            {
+                animator.SetTrigger("attackEnd");
+            }
+        }
+
+ 
+
+
         if (Input.GetKeyDown(KeyCode.E) && canRollDash)
         {
             StartCoroutine(RollingDash());
