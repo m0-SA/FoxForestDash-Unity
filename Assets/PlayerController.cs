@@ -25,6 +25,14 @@ public class PlayerController : MonoBehaviour
     TrailRenderer trailRenderer;
     
     float collisionRadius = 0.2f;
+
+    // coyote time gives small window after leaving ground to jump
+    float coyoteTime = 0.3f;
+    float coyoteTimeCounter;
+
+    // jump buffer allows queuing next jump before fully hitting ground
+    float jbTime = 0.3f;
+    float jbCounter;
     bool doubleJump;
     bool canRollDash = true;
     bool isRollDashing;
@@ -67,38 +75,61 @@ public class PlayerController : MonoBehaviour
         // keep the vertical (Y) velocity the same for now
         rigidbody.velocity = new Vector2(moveInput * speed, rigidbody.velocity.y);
 
+
+        /* checks if grounded to be used in fall animation transitions.
+          have coyote time if grounded. else coyote time starts to count down. */
+        if (isGrounded)
+        {
+            animator.SetBool("grounded", true);
+            coyoteTimeCounter = coyoteTime;
+        }
+        else
+        {
+            animator.SetBool("grounded", false);
+            coyoteTimeCounter -= Time.deltaTime;
+        }
+
+
+        // double jump becomes available once grounded and not jumping. 
         if (isGrounded && !Input.GetButton("Jump"))
         {
             doubleJump = false;
         }
 
-
-        //has the player pressed jump?
         if (Input.GetButtonDown("Jump"))
         {
-            // test whether what is at our feet is part of the "ground" layer
-            if (isGrounded || doubleJump)
+            jbCounter = jbTime;
+        }
+        else
+        {
+            jbCounter -= Time.deltaTime;
+        }
+
+        // does the player have a jump buffer?
+        if (jbCounter > 0f)
+        {
+
+            // test whether we have coyote time or we have double jump available
+            if (coyoteTimeCounter > 0f || doubleJump)
             {
                 // trigger the jump animation
                 animator.SetTrigger("jump");
                 // apply our jump force to the Y axis
                 // keep the horizontal velocity the same as before
                 rigidbody.velocity = new Vector2(rigidbody.velocity.x, doubleJump ? doubleJumpPower : jumpForce);
+                jbCounter = 0f;
 
                 doubleJump = !doubleJump;
                 
             }
         }
 
-        // checks if grounded to be used in fall animation transitions.
-        if (isGrounded)
+        if (Input.GetButtonUp("Jump") && rigidbody.velocity.y > 0f)
         {
-            animator.SetBool("grounded", true);
+            coyoteTimeCounter = 0f;
         }
-        else
-        {
-            animator.SetBool("grounded", false);
-        }
+
+     
 
         // pass the horizonal and vertical velocity to the animator
         animator.SetFloat("y", rigidbody.velocity.y);
@@ -174,13 +205,21 @@ public class PlayerController : MonoBehaviour
 
     private IEnumerator RollingDash()
     {
+        var isGrounded = Physics2D.OverlapCircle((Vector2)transform.position + bottomOffset,
+                collisionRadius,
+                groundLayer);
+
+
         canRollDash = false;
         isRollDashing = true;
         float ogGravity = rigidbody.gravityScale;
         rigidbody.gravityScale = 0f;
         rigidbody.velocity = new Vector2(rigidbody.velocity.x * rollDashPower, 0f);
         trailRenderer.emitting = true;
-        animator.SetTrigger("rolling");
+        if (isGrounded )
+        {
+            animator.SetTrigger("rolling");
+        }
         yield return new WaitForSeconds(dashingTime);
         trailRenderer.emitting = false;
         rigidbody.gravityScale = ogGravity;
