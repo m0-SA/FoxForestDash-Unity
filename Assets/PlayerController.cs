@@ -80,11 +80,13 @@ public class PlayerController : MonoBehaviour
           have coyote time if grounded. else coyote time starts to count down. */
         if (isGrounded)
         {
+            trailRenderer.emitting = false;
             animator.SetBool("grounded", true);
             coyoteTimeCounter = coyoteTime;
         }
         else
         {
+            trailRenderer.emitting = true;
             animator.SetBool("grounded", false);
             coyoteTimeCounter -= Time.deltaTime;
         }
