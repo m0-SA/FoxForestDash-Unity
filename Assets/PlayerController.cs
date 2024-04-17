@@ -44,18 +44,18 @@ public class PlayerController : MonoBehaviour
 
 
     Animator animator;
-    SpriteRenderer renderer;
-    Rigidbody2D rigidbody;
+    SpriteRenderer sRenderer;
+    Rigidbody2D r;
 
 
     // Start is called before the first frame update
     void Start()
     {
         // keep a reference to this component for efficiency
-        rigidbody = GetComponent<Rigidbody2D>();
+        r = GetComponent<Rigidbody2D>();
 
         animator = GetComponent<Animator>();
-        renderer = GetComponent<SpriteRenderer>();
+        sRenderer = GetComponent<SpriteRenderer>();
 
         dashText.text = "Dash Available";
         dashText.color = Color.green;
@@ -79,7 +79,7 @@ public class PlayerController : MonoBehaviour
                 groundLayer);
         // apply a horizontal velocity by multiplying input by our speed constant
         // keep the vertical (Y) velocity the same for now
-        rigidbody.velocity = new Vector2(moveInput * speed, rigidbody.velocity.y);
+        r.velocity = new Vector2(moveInput * speed, r.velocity.y);
 
 
         /* checks if grounded to be used in fall animation transitions.
@@ -124,7 +124,7 @@ public class PlayerController : MonoBehaviour
                 animator.SetTrigger("jump");
                 // apply our jump force to the Y axis
                 // keep the horizontal velocity the same as before
-                rigidbody.velocity = new Vector2(rigidbody.velocity.x, doubleJump ? doubleJumpPower : jumpForce);
+                r.velocity = new Vector2(r.velocity.x, doubleJump ? doubleJumpPower : jumpForce);
                 jbCounter = 0f;
 
                 doubleJump = !doubleJump;
@@ -132,7 +132,7 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-        if (Input.GetButtonUp("Jump") && rigidbody.velocity.y > 0f)
+        if (Input.GetButtonUp("Jump") && r.velocity.y > 0f)
         {
             coyoteTimeCounter = 0f;
         }
@@ -140,24 +140,24 @@ public class PlayerController : MonoBehaviour
      
 
         // pass the horizonal and vertical velocity to the animator
-        animator.SetFloat("y", rigidbody.velocity.y);
+        animator.SetFloat("y", r.velocity.y);
         animator.SetFloat("x", moveInput);
 
         // face the appropriate direction
         if (moveInput < 0)
-            renderer.flipX = true;
+            sRenderer.flipX = true;
         else if (moveInput > 0)
-            renderer.flipX = false;
+            sRenderer.flipX = false;
 
 
-        if (rigidbody.velocity.y < 0)
+        if (r.velocity.y < 0)
         {
-            rigidbody.velocity += Vector2.up * Physics2D.gravity.y * fallMultiplier
+            r.velocity += Vector2.up * Physics2D.gravity.y * fallMultiplier
                 * Time.deltaTime;
         }
-        else if (rigidbody.velocity.y > 0 && !Input.GetButton("Jump"))
+        else if (r.velocity.y > 0 && !Input.GetButton("Jump"))
         {
-            rigidbody.velocity += Vector2.up * Physics2D.gravity.y *
+            r.velocity += Vector2.up * Physics2D.gravity.y *
                 lowJumpMultiplier * Time.deltaTime;
         }
 
@@ -184,12 +184,6 @@ public class PlayerController : MonoBehaviour
             }
         }
 
-
-
-
-
-
-
         if (Input.GetKeyDown(KeyCode.LeftShift) && canRollDash)
         {
             StartCoroutine(RollingDash());
@@ -203,35 +197,6 @@ public class PlayerController : MonoBehaviour
         {
             return;
         }
-        /*
-       // left and right input
-       float moveInput = Input.GetAxis("Horizontal");
-
-
-
-       // apply a horizontal velocity by multiplying input by our speed constant
-       // keep the vertical (Y) velocity the same for now
-
-
-       float targetSpeed = moveInput * speed;
-       float speedDif = targetSpeed - rigidbody.velocity.x;
-       float accelRate = (Mathf.Abs(targetSpeed) > velocityPower) ? acceleration : decceleration;
-       float movement = Mathf.Pow(Mathf.Abs(speedDif) * accelRate, 0.9f) * Mathf.Sign(speedDif);
-
-       rigidbody.AddForce(movement * Vector2.right);
-
-
-       // pass the horizonal and vertical velocity to the animator
-       animator.SetFloat("y", rigidbody.velocity.y);
-       animator.SetFloat("x", moveInput);
-
-       // face the appropriate direction
-       if (moveInput < 0)
-           renderer.flipX = true;
-       else if (moveInput > 0)
-           renderer.flipX = false;*/
-    
-
 }
 
     void OnDrawGizmos()
@@ -249,9 +214,9 @@ public class PlayerController : MonoBehaviour
         
         canRollDash = false;
         isRollDashing = true;
-        float ogGravity = rigidbody.gravityScale;
-        rigidbody.gravityScale = 0f;
-        rigidbody.velocity = new Vector2(rigidbody.velocity.x * rollDashPower, 0f);
+        float ogGravity = r.gravityScale;
+        r.gravityScale = 0f;
+        r.velocity = new Vector2(r.velocity.x * rollDashPower, 0f);
         trailRenderer.emitting = true;
         if (isGrounded )
         {
@@ -260,7 +225,7 @@ public class PlayerController : MonoBehaviour
         dashText.text = "Dashing...";
         yield return new WaitForSeconds(dashingTime);
         trailRenderer.emitting = false;
-        rigidbody.gravityScale = ogGravity;
+        r.gravityScale = ogGravity;
         isRollDashing = false;
         dashText.text = "Dash Unavailable";
         dashText.color = Color.red;

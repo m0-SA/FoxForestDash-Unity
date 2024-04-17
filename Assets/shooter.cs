@@ -7,14 +7,10 @@ public class shooter : MonoBehaviour
 
     public GameObject projectile;
     public Transform projectilePosition;
-    
-
 
     [SerializeField]
-    float rotation = 0f;
-
-    [SerializeField]
-    float fireRate = 1f;
+    float fireRate = 1f,
+        speed = 10f;
 
     float nextFire = 0.0f;
 
@@ -38,7 +34,8 @@ public class shooter : MonoBehaviour
 
     void fireProjectile()
     {
-        Instantiate(projectile, projectilePosition.position, projectilePosition.rotation);
+        GameObject instance = Instantiate(projectile, projectilePosition.position, projectilePosition.rotation);
+        instance.GetComponent<projectile>().speed = speed;
     }
 }
 

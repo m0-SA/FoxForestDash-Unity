@@ -28,7 +28,7 @@ Transform:
   m_GameObject: {fileID: 390293733293313975}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.35, y: 1.547, z: 0}
+  m_LocalPosition: {x: 4.008, y: 2.284, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -145,10 +145,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   projectile: {fileID: 2895413954876436045, guid: 95017a65e48daad4483e27307508c4d2, type: 3}
-  projectileLife: 10
+  projectilePosition: {fileID: 1890942569475116803}
+  fireRate: 0.5
   speed: 15
-  spawnerType: 0
-  fireRate: 0.1
 --- !u!1 &7551372397426504178
 GameObject:
   m_ObjectHideFlags: 0
