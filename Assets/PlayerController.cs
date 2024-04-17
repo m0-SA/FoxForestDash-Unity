@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 
 public class PlayerController : MonoBehaviour
@@ -23,7 +24,9 @@ public class PlayerController : MonoBehaviour
 
     [SerializeField]
     TrailRenderer trailRenderer;
-    
+
+    public TextMeshProUGUI dashText;
+
     float collisionRadius = 0.2f;
 
     // coyote time gives small window after leaving ground to jump
@@ -53,6 +56,9 @@ public class PlayerController : MonoBehaviour
 
         animator = GetComponent<Animator>();
         renderer = GetComponent<SpriteRenderer>();
+
+        dashText.text = "Dash Available";
+        dashText.color = Color.green;
     }
 
     // Update is called once per frame
@@ -159,6 +165,18 @@ public class PlayerController : MonoBehaviour
         if (Input.GetMouseButtonDown(0))
         {
             animator.SetTrigger("attack1");
+            
+            if (!isGrounded)
+            {
+                animator.SetTrigger("attackEnd");
+            }
+        }
+
+        if (Input.GetMouseButtonDown(1))
+        {
+        
+            animator.SetTrigger("attack2");
+
 
             if (!isGrounded)
             {
@@ -166,10 +184,13 @@ public class PlayerController : MonoBehaviour
             }
         }
 
- 
 
 
-        if (Input.GetKeyDown(KeyCode.E) && canRollDash)
+
+
+
+
+        if (Input.GetKeyDown(KeyCode.LeftShift) && canRollDash)
         {
             StartCoroutine(RollingDash());
         }
@@ -225,7 +246,7 @@ public class PlayerController : MonoBehaviour
                 collisionRadius,
                 groundLayer);
 
-
+        
         canRollDash = false;
         isRollDashing = true;
         float ogGravity = rigidbody.gravityScale;
@@ -236,13 +257,21 @@ public class PlayerController : MonoBehaviour
         {
             animator.SetTrigger("rolling");
         }
+        dashText.text = "Dashing...";
         yield return new WaitForSeconds(dashingTime);
         trailRenderer.emitting = false;
         rigidbody.gravityScale = ogGravity;
         isRollDashing = false;
+        dashText.text = "Dash Unavailable";
+        dashText.color = Color.red;
         yield return new WaitForSeconds(dashingCD);
         canRollDash = true;
+        dashText.text = "Dash Available";
+        dashText.color = Color.green;
     }
+    
 }
+
+
 
 

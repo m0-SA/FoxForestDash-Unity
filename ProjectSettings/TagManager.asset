@@ -5,6 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - TutorialText
+  - Projectile
+  - Enemy
+  - Ground
   layers:
   - Default
   - TransparentFX
