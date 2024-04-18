@@ -7,7 +7,7 @@ public class platformFallThrough : MonoBehaviour
 {
 
     [SerializeField]
-    float fallTime = 1.0f;
+    float fallTime = 0.2f;
     // Start is called before the first frame update
     void Start()
     {

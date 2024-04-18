@@ -5,7 +5,10 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: Assets/Scenes/SampleScene.unity
-    guid: 8c9cfa26abfee488c85f1582747f6a02
+  - enabled: 1
+    path: Assets/Scenes/Level 1 - Tutorial.unity
+    guid: 0b3bab5c7378d484c8feff526aa7ca9d
+  - enabled: 1
+    path: Assets/Scenes/Level 2 - Double Jump.unity
+    guid: 958dfd34b4f10c74e89e576352782d60
   m_configObjects: {}

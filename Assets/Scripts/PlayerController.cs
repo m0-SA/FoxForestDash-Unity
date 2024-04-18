@@ -36,11 +36,21 @@ public class PlayerController : MonoBehaviour
     // jump buffer allows queuing next jump before fully hitting ground
     float jbTime = 0.3f;
     float jbCounter;
+
+
     bool doubleJump;
     bool canRollDash = true;
     bool isRollDashing;
-
     
+
+    public float knockbackMultiplier;
+    public float knockbackCounter;
+
+    public bool knockbackDirection;
+    public bool dashUnlocked = false;
+    public bool doubleJumpUnlocked = false;
+
+
 
 
     Animator animator;
@@ -57,8 +67,8 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         sRenderer = GetComponent<SpriteRenderer>();
 
-        dashText.text = "Dash Available";
-        dashText.color = Color.green;
+        dashText.text = "Dash Locked";
+        dashText.color = Color.red;
     }
 
     // Update is called once per frame
@@ -77,9 +87,28 @@ public class PlayerController : MonoBehaviour
         var isGrounded = Physics2D.OverlapCircle((Vector2)transform.position + bottomOffset,
                 collisionRadius,
                 groundLayer);
+
         // apply a horizontal velocity by multiplying input by our speed constant
         // keep the vertical (Y) velocity the same for now
-        r.velocity = new Vector2(moveInput * speed, r.velocity.y);
+        if (knockbackCounter <= 0)
+        {
+            r.velocity = new Vector2(moveInput * speed, r.velocity.y);
+        }
+        else
+        {
+            animator.SetTrigger("jump");
+            // if collision from right, move to left and vice versa
+            if (knockbackDirection)
+            {
+                r.velocity = new Vector2(-knockbackMultiplier, knockbackMultiplier);
+            }
+            if (!knockbackDirection)
+            {
+                r.velocity = new Vector2(knockbackMultiplier, knockbackMultiplier);
+            }
+            knockbackCounter -= Time.deltaTime;
+        }
+        
 
 
         /* checks if grounded to be used in fall animation transitions.
@@ -118,7 +147,7 @@ public class PlayerController : MonoBehaviour
         {
 
             // test whether we have coyote time or we have double jump available
-            if (coyoteTimeCounter > 0f || doubleJump)
+            if (coyoteTimeCounter > 0f || (doubleJump && doubleJumpUnlocked))
             {
                 // trigger the jump animation
                 animator.SetTrigger("jump");
@@ -161,6 +190,9 @@ public class PlayerController : MonoBehaviour
                 lowJumpMultiplier * Time.deltaTime;
         }
 
+
+
+
         // left mouse click to trigger attack 1. if in air, will trigger end animation to transition into falling.
         if (Input.GetMouseButtonDown(0))
         {
@@ -184,6 +216,15 @@ public class PlayerController : MonoBehaviour
             }
         }
 
+        if (!dashUnlocked)
+        {
+            canRollDash = false;
+        }
+        else
+        {
+            canRollDash = true;
+        }
+
         if (Input.GetKeyDown(KeyCode.LeftShift) && canRollDash)
         {
             StartCoroutine(RollingDash());
@@ -205,6 +246,8 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere((Vector2)transform.position + bottomOffset, collisionRadius);
     }
 
+
+
     private IEnumerator RollingDash()
     {
         var isGrounded = Physics2D.OverlapCircle((Vector2)transform.position + bottomOffset,
@@ -218,18 +261,22 @@ public class PlayerController : MonoBehaviour
         r.gravityScale = 0f;
         r.velocity = new Vector2(r.velocity.x * rollDashPower, 0f);
         trailRenderer.emitting = true;
+
         if (isGrounded )
         {
             animator.SetTrigger("rolling");
         }
+
         dashText.text = "Dashing...";
         yield return new WaitForSeconds(dashingTime);
+
         trailRenderer.emitting = false;
         r.gravityScale = ogGravity;
         isRollDashing = false;
         dashText.text = "Dash Unavailable";
         dashText.color = Color.red;
         yield return new WaitForSeconds(dashingCD);
+
         canRollDash = true;
         dashText.text = "Dash Available";
         dashText.color = Color.green;

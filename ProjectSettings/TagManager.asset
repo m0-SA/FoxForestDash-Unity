@@ -8,6 +8,8 @@ TagManager:
   - Projectile
   - Enemy
   - Ground
+  - LevelCheckpoint
+  - RecoveryCheckpoint
   layers:
   - Default
   - TransparentFX
