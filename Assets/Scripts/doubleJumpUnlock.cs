@@ -6,14 +6,36 @@ using UnityEngine;
 public class doubleJumpUnlock : MonoBehaviour
 {
 
-    public PlayerController playerController;
+    bool doubleJumpBool;
+
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        
         if (other.gameObject.CompareTag("Player"))
         {
-            playerController.doubleJumpUnlocked = true;
-            Destroy(gameObject);
+            doubleJumpBool = PlayerController.Instance.doubleJumpUnlocked;
+
+            if (doubleJumpBool == false)
+            {
+                PlayerController.Instance.doubleJumpUnlocked = true;
+                StartCoroutine(unlockUIText());
+            }
+                
         }
     }
+
+    IEnumerator unlockUIText()
+    {
+     
+        GameObject unlockUI = GameObject.FindWithTag("UnlockUI");
+        TextMeshProUGUI unlockText = unlockUI.GetComponent<TextMeshProUGUI>();
+        unlockText.text = "You've unlocked double jump!";
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+        gameObject.GetComponent<CircleCollider2D>().enabled = false;
+        yield return new WaitForSeconds(3f);
+        unlockText.text = "";
+        Destroy(gameObject);
+    }
+
 }

@@ -10,6 +10,8 @@ TagManager:
   - Ground
   - LevelCheckpoint
   - RecoveryCheckpoint
+  - UnlockUI
+  - UI
   layers:
   - Default
   - TransparentFX

@@ -12,6 +12,7 @@ public class unlockClear : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            TextMeshProUGUI unlockUI = GameObject.FindWithTag("UnlockUI").GetComponent<TextMeshProUGUI>();
             unlockUI.text = "";
         }
     }

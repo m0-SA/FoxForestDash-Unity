@@ -6,23 +6,23 @@ using UnityEngine.UI;
 public class healthUI : MonoBehaviour
 {
 
-    int health;
+    int healthVal;
     int maxHealth;
 
     public Image[] hearts;
 
-    public health playerHealth;
+
 
     // Update is called once per frame
     void Update()
     {
 
-        health = playerHealth.playerHealth;
-        maxHealth = playerHealth.maxHealth;
+        healthVal = health.Instance.playerHealth;
+        maxHealth = health.Instance.maxHealth;
 
         for (int i = 0; i < hearts.Length; i++)
         {
-            if (i < health)
+            if (i < healthVal)
             {
                 hearts[i].color = Color.red;
             }

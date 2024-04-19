@@ -2,9 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
+    public static PlayerController Instance { get; private set; }
+
+    void Awake()
+    {
+        //Check if instance already exists
+        if (Instance == null)
+            //if not, set instance to this
+            Instance = this;
+        //If instance already exists and it's not this:
+        else if (Instance != this)
+            // Then destroy this. This enforces the singleton pattern,
+            // meaning there can only ever be one instance of a ScoreManager.
+            Destroy(gameObject);
+        //Sets this to not be destroyed when reloading scene
+        DontDestroyOnLoad(gameObject);
+    }
 
     [SerializeField]
     float speed = 4.0f,
@@ -27,7 +44,7 @@ public class PlayerController : MonoBehaviour
 
     public TextMeshProUGUI dashText;
 
-    float collisionRadius = 0.2f;
+    float collisionRadius = 0.1f;
 
     // coyote time gives small window after leaving ground to jump
     float coyoteTime = 0.3f;
@@ -191,31 +208,6 @@ public class PlayerController : MonoBehaviour
         }
 
 
-
-
-        // left mouse click to trigger attack 1. if in air, will trigger end animation to transition into falling.
-        if (Input.GetMouseButtonDown(0))
-        {
-            animator.SetTrigger("attack1");
-            
-            if (!isGrounded)
-            {
-                animator.SetTrigger("attackEnd");
-            }
-        }
-
-        if (Input.GetMouseButtonDown(1))
-        {
-        
-            animator.SetTrigger("attack2");
-
-
-            if (!isGrounded)
-            {
-                animator.SetTrigger("attackEnd");
-            }
-        }
-
         if (!dashUnlocked)
         {
             canRollDash = false;
@@ -246,8 +238,6 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere((Vector2)transform.position + bottomOffset, collisionRadius);
     }
 
-
-
     private IEnumerator RollingDash()
     {
         var isGrounded = Physics2D.OverlapCircle((Vector2)transform.position + bottomOffset,
@@ -261,11 +251,7 @@ public class PlayerController : MonoBehaviour
         r.gravityScale = 0f;
         r.velocity = new Vector2(r.velocity.x * rollDashPower, 0f);
         trailRenderer.emitting = true;
-
-        if (isGrounded )
-        {
-            animator.SetTrigger("rolling");
-        }
+        animator.SetTrigger("rolling");
 
         dashText.text = "Dashing...";
         yield return new WaitForSeconds(dashingTime);
@@ -281,7 +267,7 @@ public class PlayerController : MonoBehaviour
         dashText.text = "Dash Available";
         dashText.color = Color.green;
     }
-    
+
 }
 
 
