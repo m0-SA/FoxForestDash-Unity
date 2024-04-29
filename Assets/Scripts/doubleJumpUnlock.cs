@@ -6,17 +6,13 @@ using UnityEngine;
 public class doubleJumpUnlock : MonoBehaviour
 {
 
-    bool doubleJumpBool;
-
 
     private void OnTriggerEnter2D(Collider2D other)
     {
         
         if (other.gameObject.CompareTag("Player"))
         {
-            doubleJumpBool = PlayerController.Instance.doubleJumpUnlocked;
-
-            if (doubleJumpBool == false)
+            if (PlayerController.Instance.doubleJumpUnlocked == false)
             {
                 PlayerController.Instance.doubleJumpUnlocked = true;
                 StartCoroutine(unlockUIText());
@@ -27,7 +23,6 @@ public class doubleJumpUnlock : MonoBehaviour
 
     IEnumerator unlockUIText()
     {
-     
         GameObject unlockUI = GameObject.FindWithTag("UnlockUI");
         TextMeshProUGUI unlockText = unlockUI.GetComponent<TextMeshProUGUI>();
         unlockText.text = "You've unlocked double jump!";

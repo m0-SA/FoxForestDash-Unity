@@ -5,30 +5,33 @@ using UnityEngine;
 public class damage : MonoBehaviour
 {
 
-    public health health;
-    public PlayerController playerController;
-
     [SerializeField]
-    float totalKnockbackTime,
-        knockbackMultiplier;
+    float totalKnockbackTime = 0.1f,
+        knockbackMultiplier = 2f;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player" && health.playerHealth > 0) {
-            playerController.knockbackCounter = totalKnockbackTime;
-            playerController.knockbackMultiplier = knockbackMultiplier;
+        knockback(collision);
+    }
+
+    public void knockback(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "Player" && health.Instance.playerHealth > 0)
+        {
+            PlayerController.Instance.knockbackCounter = totalKnockbackTime;
+            PlayerController.Instance.knockbackMultiplier = knockbackMultiplier;
 
             if (collision.transform.position.x <= transform.position.x)
             {
-                playerController.knockbackDirection = true;
+                PlayerController.Instance.knockbackDirection = true;
 
             }
             if (collision.transform.position.x > transform.position.x)
             {
-                playerController.knockbackDirection = false;
+                PlayerController.Instance.knockbackDirection = false;
             }
-            health.damage();
-            
+            health.Instance.damage();
+
         };
     }
 }

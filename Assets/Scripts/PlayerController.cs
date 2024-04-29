@@ -44,26 +44,32 @@ public class PlayerController : MonoBehaviour
 
     public TextMeshProUGUI dashText;
 
+    
+  
+
     float collisionRadius = 0.1f;
 
     // coyote time gives small window after leaving ground to jump
-    float coyoteTime = 0.3f;
+    
     float coyoteTimeCounter;
 
     // jump buffer allows queuing next jump before fully hitting ground
-    float jbTime = 0.3f;
-    float jbCounter;
+    public float jbTime = 0.3f;
+    public float jbCounter;
 
 
-    bool doubleJump;
-    bool canRollDash = true;
+    
+    
     bool isRollDashing;
     
 
     public float knockbackMultiplier;
     public float knockbackCounter;
+    public float coyoteTime = 0.3f;
 
+    public bool doubleJump;
     public bool knockbackDirection;
+    public bool canRollDash = false;
     public bool dashUnlocked = false;
     public bool doubleJumpUnlocked = false;
 
@@ -86,6 +92,8 @@ public class PlayerController : MonoBehaviour
 
         dashText.text = "Dash Locked";
         dashText.color = Color.red;
+
+    
     }
 
     // Update is called once per frame
@@ -99,11 +107,6 @@ public class PlayerController : MonoBehaviour
 
         // left and right input
         float moveInput = Input.GetAxis("Horizontal");
-
-
-        var isGrounded = Physics2D.OverlapCircle((Vector2)transform.position + bottomOffset,
-                collisionRadius,
-                groundLayer);
 
         // apply a horizontal velocity by multiplying input by our speed constant
         // keep the vertical (Y) velocity the same for now
@@ -125,15 +128,14 @@ public class PlayerController : MonoBehaviour
             }
             knockbackCounter -= Time.deltaTime;
         }
-        
-
 
         /* checks if grounded to be used in fall animation transitions.
           have coyote time if grounded. else coyote time starts to count down. */
-        if (isGrounded)
+        if (isGrounded())
         {
             trailRenderer.emitting = false;
             animator.SetBool("grounded", true);
+  ;
             coyoteTimeCounter = coyoteTime;
         }
         else
@@ -145,7 +147,7 @@ public class PlayerController : MonoBehaviour
 
 
         // double jump becomes available once grounded and not jumping. 
-        if (isGrounded && !Input.GetButton("Jump"))
+        if (isGrounded() && !Input.GetButton("Jump"))
         {
             doubleJump = false;
         }
@@ -207,16 +209,6 @@ public class PlayerController : MonoBehaviour
                 lowJumpMultiplier * Time.deltaTime;
         }
 
-
-        if (!dashUnlocked)
-        {
-            canRollDash = false;
-        }
-        else
-        {
-            canRollDash = true;
-        }
-
         if (Input.GetKeyDown(KeyCode.LeftShift) && canRollDash)
         {
             StartCoroutine(RollingDash());
@@ -238,13 +230,15 @@ public class PlayerController : MonoBehaviour
         Gizmos.DrawWireSphere((Vector2)transform.position + bottomOffset, collisionRadius);
     }
 
-    private IEnumerator RollingDash()
+    public bool isGrounded()
     {
-        var isGrounded = Physics2D.OverlapCircle((Vector2)transform.position + bottomOffset,
+        return Physics2D.OverlapCircle((Vector2)transform.position + bottomOffset,
                 collisionRadius,
                 groundLayer);
+    }
 
-        
+    private IEnumerator RollingDash()
+    {       
         canRollDash = false;
         isRollDashing = true;
         float ogGravity = r.gravityScale;
@@ -252,7 +246,6 @@ public class PlayerController : MonoBehaviour
         r.velocity = new Vector2(r.velocity.x * rollDashPower, 0f);
         trailRenderer.emitting = true;
         animator.SetTrigger("rolling");
-
         dashText.text = "Dashing...";
         yield return new WaitForSeconds(dashingTime);
 
@@ -262,7 +255,6 @@ public class PlayerController : MonoBehaviour
         dashText.text = "Dash Unavailable";
         dashText.color = Color.red;
         yield return new WaitForSeconds(dashingCD);
-
         canRollDash = true;
         dashText.text = "Dash Available";
         dashText.color = Color.green;

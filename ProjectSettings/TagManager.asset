@@ -12,6 +12,7 @@ TagManager:
   - RecoveryCheckpoint
   - UnlockUI
   - UI
+  - DashText
   layers:
   - Default
   - TransparentFX

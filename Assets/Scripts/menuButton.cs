@@ -6,13 +6,19 @@ using UnityEngine.SceneManagement;
 
 public class menuButton : MonoBehaviour
 {
-    public GameObject player;
-    public GameObject UI;
+    [SerializeField]
+    int level,
+        health;
+    [SerializeField]
+    bool doubleJump,
+        canRollDash,
+        dashUnlocked,
+        doubleJumpUnlocked;
+
 
     // Start is called before the first frame update
     public void loadStart()
     {
-        Destroy(player);
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene(level);
     }
 }

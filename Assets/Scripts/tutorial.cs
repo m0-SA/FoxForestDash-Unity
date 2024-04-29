@@ -15,8 +15,6 @@ public class tutorial : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             TextMeshProUGUI tutorialUI = GameObject.FindWithTag("TutorialText").GetComponent<TextMeshProUGUI>();
-            TextMeshProUGUI unlockUI = GameObject.FindWithTag("UnlockUI").GetComponent<TextMeshProUGUI>();
-            unlockUI.text = "";
             tutorialUI.text = tutorialOutput;
         }
     }

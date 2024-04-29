@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using static UnityEditor.Experimental.GraphView.GraphView;
+
 public class loadLevel : MonoBehaviour
 {
 
@@ -15,6 +15,7 @@ public class loadLevel : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            GameObject.FindWithTag("LevelCheckpoint").SetActive(false);
             SceneManager.LoadScene(scene);
             other.transform.position = Vector3.zero;
             health.Instance.playerHealth = health.Instance.maxHealth;
