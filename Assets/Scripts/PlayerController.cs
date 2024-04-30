@@ -8,6 +8,7 @@ public class PlayerController : MonoBehaviour
 {
     public static PlayerController Instance { get; private set; }
 
+
     void Awake()
     {
         //Check if instance already exists
@@ -21,6 +22,8 @@ public class PlayerController : MonoBehaviour
             Destroy(gameObject);
         //Sets this to not be destroyed when reloading scene
         DontDestroyOnLoad(gameObject);
+
+
     }
 
     [SerializeField]
@@ -79,6 +82,7 @@ public class PlayerController : MonoBehaviour
     Animator animator;
     SpriteRenderer sRenderer;
     Rigidbody2D r;
+
 
 
     // Start is called before the first frame update
