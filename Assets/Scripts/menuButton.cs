@@ -1,9 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 
 public class menuButton : MonoBehaviour
@@ -22,13 +22,41 @@ public class menuButton : MonoBehaviour
     // Start is called before the first frame update
     public void loadStart()
     {
-        health.Instance.playerHealth = playerHealth;
-        health.Instance.maxHealth = playerHealth;
 
         PlayerController.Instance.doubleJump = doubleJump;
         PlayerController.Instance.canRollDash = canRollDash;
         PlayerController.Instance.dashUnlocked = dashUnlocked;
         PlayerController.Instance.doubleJumpUnlocked = doubleJumpUnlocked;
+
+
+        StartCoroutine(loadScene(level));
+        
+    }
+
+    public void setHealth()
+    {
+        health.Instance.playerHealth = playerHealth;
+        health.Instance.maxHealth = playerHealth;
+    }
+
+    IEnumerator loadScene(int level)
+    {
+        transition.SetTrigger("loadOut");
+        yield return new WaitForSeconds(1);
+        setHealth();
+
+        GameObject.FindWithTag("Player").transform.position = Vector3.zero;
+
+        GameObject[] menuButtons = GameObject.FindGameObjectsWithTag("MenuButton");
+        foreach (GameObject button in menuButtons)
+        {
+            button.GetComponent<Button>().enabled = false;
+            button.GetComponent<Image>().enabled = false;
+            button.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
+        }
+
+        GameObject health = GameObject.FindWithTag("HealthBar");
+        health.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
 
         if (dashUnlocked)
         {
@@ -38,24 +66,12 @@ public class menuButton : MonoBehaviour
         }
 
         GameObject backButton = GameObject.FindWithTag("Back");
-        backButton.GetComponent<UnityEngine.UI.Button>().enabled = true;
-        backButton.GetComponent<UnityEngine.UI.Image>().enabled = true;
+        backButton.GetComponent<Button>().enabled = true;
+        backButton.GetComponent<Image>().enabled = true;
         backButton.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
 
-        
-
-        StartCoroutine(loadScene(level));
-        
-    }
-
-    IEnumerator loadScene(int level)
-    {
-        transition.SetTrigger("loadOut");
-        yield return new WaitForSeconds(1);
-        GameObject.FindWithTag("Player").transform.position = Vector3.zero;
         SceneManager.LoadScene(level);
         transition.SetTrigger("loadIn");
-        Debug.Log("this palys");
     }
 
 }

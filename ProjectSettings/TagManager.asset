@@ -16,6 +16,8 @@ TagManager:
   - HealthBar
   - Player UI
   - Back
+  - MenuButton
+  - Transition
   layers:
   - Default
   - TransparentFX

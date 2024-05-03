@@ -3,16 +3,17 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.UIElements;
-using Image = UnityEngine.UI.Image;
+
+
 
 public class displayOffMenu : MonoBehaviour
 {
 
     void Awake()
     {
+  
         GameObject backButton = GameObject.FindWithTag("Back");
-        backButton.GetComponent<UnityEngine.UI.Button>().enabled = false;
+        backButton.GetComponent<Button>().enabled = false;
         backButton.GetComponent<Image>().enabled = false;
         backButton.GetComponentInChildren<TextMeshProUGUI>().enabled = false;
 
@@ -21,6 +22,20 @@ public class displayOffMenu : MonoBehaviour
 
         TextMeshProUGUI dashText = GameObject.FindWithTag("DashText").GetComponent<TextMeshProUGUI>();
         dashText.text = "";
+
+        GameObject[] menuButtons = GameObject.FindGameObjectsWithTag("MenuButton");
+        foreach (GameObject button in menuButtons)
+        {
+            button.GetComponent<Button>().enabled = true;
+            button.GetComponent<Image>().enabled = true;
+            button.GetComponentInChildren<TextMeshProUGUI>().enabled = true;
+        }
+
+        TextMeshProUGUI unlockUI = GameObject.FindWithTag("UnlockUI").GetComponent<TextMeshProUGUI>();
+        unlockUI.text = "";
+
+        TextMeshProUGUI tutorialUI = GameObject.FindWithTag("TutorialText").GetComponent<TextMeshProUGUI>();
+        tutorialUI.text = "";
 
     }
 

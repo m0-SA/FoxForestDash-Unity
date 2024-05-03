@@ -16,8 +16,8 @@ public class loadLevel : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             GameObject.FindWithTag("LevelCheckpoint").SetActive(false);
+            transition = GameObject.FindWithTag("Transition").GetComponent<Animator>();
             StartCoroutine(loadScene(scene,other));
-
         }
 
     }
@@ -30,5 +30,6 @@ public class loadLevel : MonoBehaviour
         other.transform.position = Vector3.zero;
         health.Instance.playerHealth = health.Instance.maxHealth;
         SceneManager.LoadScene(level);
+        transition.SetTrigger("loadIn");
     }
 }
