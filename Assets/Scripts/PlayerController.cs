@@ -94,9 +94,6 @@ public class PlayerController : MonoBehaviour
         animator = GetComponent<Animator>();
         sRenderer = GetComponent<SpriteRenderer>();
 
-        dashText.text = "Dash Locked";
-        dashText.color = Color.red;
-
     
     }
 

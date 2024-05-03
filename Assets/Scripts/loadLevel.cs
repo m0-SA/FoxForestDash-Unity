@@ -8,7 +8,7 @@ public class loadLevel : MonoBehaviour
 {
 
     public int scene;
-
+    public Animator transition;
 
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -16,10 +16,19 @@ public class loadLevel : MonoBehaviour
         if (other.gameObject.CompareTag("Player"))
         {
             GameObject.FindWithTag("LevelCheckpoint").SetActive(false);
-            SceneManager.LoadScene(scene);
-            other.transform.position = Vector3.zero;
-            health.Instance.playerHealth = health.Instance.maxHealth;
+            StartCoroutine(loadScene(scene,other));
+
         }
+
     }
-    
+
+
+    IEnumerator loadScene(int level, Collider2D other)
+    {
+        transition.SetTrigger("loadOut");
+        yield return new WaitForSeconds(1);
+        other.transform.position = Vector3.zero;
+        health.Instance.playerHealth = health.Instance.maxHealth;
+        SceneManager.LoadScene(level);
+    }
 }

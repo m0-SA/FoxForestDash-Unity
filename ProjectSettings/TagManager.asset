@@ -15,6 +15,7 @@ TagManager:
   - DashText
   - HealthBar
   - Player UI
+  - Back
   layers:
   - Default
   - TransparentFX
