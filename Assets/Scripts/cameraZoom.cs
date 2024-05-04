@@ -13,6 +13,7 @@ public class cameraZoom : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+
         if (other.gameObject.CompareTag("Player"))
         {
             Camera camera = GameObject.FindWithTag("MainCamera").GetComponent<Camera>();

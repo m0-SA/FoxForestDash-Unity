@@ -37,6 +37,8 @@ public class health : MonoBehaviour
     public void damage()
     {
         playerHealth -= 1;
+
+        // send players back to level start checkpoint
         if (playerHealth <= 0) 
         {
             GameObject player = GameObject.FindWithTag("Player");

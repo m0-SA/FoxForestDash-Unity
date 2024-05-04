@@ -852,7 +852,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1044750600341911984, guid: 67aeb9781808f264d843f61837c07893, type: 3}
       propertyPath: bounce
-      value: 50
+      value: 45
       objectReference: {fileID: 0}
     - target: {fileID: 6934102379057527744, guid: 67aeb9781808f264d843f61837c07893, type: 3}
       propertyPath: m_LocalPosition.x

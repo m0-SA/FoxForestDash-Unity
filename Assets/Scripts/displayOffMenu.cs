@@ -11,7 +11,8 @@ public class displayOffMenu : MonoBehaviour
 
     void Awake()
     {
-  
+        // Sets up menu screen any time the scene is loaded.
+
         GameObject backButton = GameObject.FindWithTag("Back");
         backButton.GetComponent<Button>().enabled = false;
         backButton.GetComponent<Image>().enabled = false;
@@ -42,14 +43,10 @@ public class displayOffMenu : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        // To remove all hearts from screen.
         health.Instance.playerHealth = -1;
         health.Instance.maxHealth = -1;
         
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

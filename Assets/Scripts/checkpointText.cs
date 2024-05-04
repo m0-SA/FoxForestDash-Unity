@@ -11,7 +11,6 @@ public class checkpointText : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             StartCoroutine(checkpoint());
-
         }
     }
 
@@ -22,6 +21,5 @@ public class checkpointText : MonoBehaviour
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         yield return new WaitForSeconds(3f);
         checkpointUI.text = "";
-
     }
 }

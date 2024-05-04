@@ -19,7 +19,6 @@ public class bouncePad : MonoBehaviour
     {
         collision.gameObject.GetComponent<Rigidbody2D>().AddForce(Vector2.up * bounce, ForceMode2D.Impulse);
         StartCoroutine(coyoteExtension());
-      
     }
 
     private void Update()
@@ -32,16 +31,18 @@ public class bouncePad : MonoBehaviour
 
     private void Reset()
     {
+        // resets the jump buffer and coyote time back to original timings.
         PlayerController.Instance.coyoteTime = coyoteTimeCurrent;
         PlayerController.Instance.jbTime = jbTimeCurrent;
         PlayerController.Instance.doubleJump = true;
         
     }
-    // Makes sure the player can peform one jump after bouncing.
 
+    // Makes sure the player can peform one jump after bouncing.
     IEnumerator coyoteExtension()
     {
         yield return new WaitForSeconds(0.1f);
+        // extends the jump buffer and coyote time while using a bounce pad.
         PlayerController.Instance.coyoteTime = 0.5f;
         PlayerController.Instance.jbTime = 0.5f;
         PlayerController.Instance.doubleJump = true;

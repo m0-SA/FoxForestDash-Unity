@@ -26,6 +26,7 @@ public class doubleJumpUnlock : MonoBehaviour
         GameObject unlockUI = GameObject.FindWithTag("UnlockUI");
         TextMeshProUGUI unlockText = unlockUI.GetComponent<TextMeshProUGUI>();
         unlockText.text = "You've unlocked double jump!";
+        // removes double jump unlock collectable
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         gameObject.GetComponent<CircleCollider2D>().enabled = false;
         yield return new WaitForSeconds(3f);

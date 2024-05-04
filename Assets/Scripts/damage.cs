@@ -5,6 +5,7 @@ using UnityEngine;
 public class damage : MonoBehaviour
 {
 
+    // Length player is in knockback state and how much force is given to the knockback.
     [SerializeField]
     float totalKnockbackTime = 0.1f,
         knockbackMultiplier = 2f;
@@ -21,11 +22,14 @@ public class damage : MonoBehaviour
             PlayerController.Instance.knockbackCounter = totalKnockbackTime;
             PlayerController.Instance.knockbackMultiplier = knockbackMultiplier;
 
+            // knockback to the left
             if (collision.transform.position.x <= transform.position.x)
             {
                 PlayerController.Instance.knockbackDirection = true;
 
             }
+
+            // knockback to the right
             if (collision.transform.position.x > transform.position.x)
             {
                 PlayerController.Instance.knockbackDirection = false;
