@@ -21,6 +21,7 @@ public class heartUnlock : MonoBehaviour
     {
         TextMeshProUGUI unlockUI = GameObject.FindWithTag("UnlockUI").GetComponent<TextMeshProUGUI>();
         unlockUI.text = "You've gained a heart!";
+        // removes heart unlock collectable interact. Only destroy once text is cleared.
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         gameObject.GetComponent<CircleCollider2D>().enabled = false;
         yield return new WaitForSeconds(3f);

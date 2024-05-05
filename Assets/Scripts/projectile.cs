@@ -30,11 +30,15 @@ public class projectile : MonoBehaviour
                 PlayerController.Instance.knockbackCounter = totalKnockbackTime;
                 PlayerController.Instance.knockbackMultiplier = knockbackMultiplier;
 
+
+
                 if (other.transform.position.x <= transform.position.x)
                 {
                     PlayerController.Instance.knockbackDirection = true;
 
                 }
+
+                // knockback to the right
                 if (other.transform.position.x > transform.position.x)
                 {
                     PlayerController.Instance.knockbackDirection = false;

@@ -16,8 +16,7 @@ public class doubleJumpUnlock : MonoBehaviour
             {
                 PlayerController.Instance.doubleJumpUnlocked = true;
                 StartCoroutine(unlockUIText());
-            }
-                
+            }       
         }
     }
 
@@ -26,7 +25,7 @@ public class doubleJumpUnlock : MonoBehaviour
         GameObject unlockUI = GameObject.FindWithTag("UnlockUI");
         TextMeshProUGUI unlockText = unlockUI.GetComponent<TextMeshProUGUI>();
         unlockText.text = "You've unlocked double jump!";
-        // removes double jump unlock collectable
+        // removes double jump unlock collectable interact. Only destroy once text is cleared.
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         gameObject.GetComponent<CircleCollider2D>().enabled = false;
         yield return new WaitForSeconds(3f);

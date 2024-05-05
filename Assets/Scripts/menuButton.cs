@@ -22,6 +22,7 @@ public class menuButton : MonoBehaviour
     // Start is called before the first frame update
     public void loadStart()
     {
+        // Level Setup. Player unlocked mechanics.
 
         PlayerController.Instance.doubleJump = doubleJump;
         PlayerController.Instance.canRollDash = canRollDash;
@@ -35,14 +36,17 @@ public class menuButton : MonoBehaviour
 
     public void setHealth()
     {
+        // Level Setup. Player Health.
         health.Instance.playerHealth = playerHealth;
         health.Instance.maxHealth = playerHealth;
     }
 
     IEnumerator loadScene(int level)
     {
+        // begins transition animation. Player health, position, health bar, dash and back button all set. Menu buttons disabled.
         transition.SetTrigger("loadOut");
         yield return new WaitForSeconds(1);
+
         setHealth();
 
         GameObject.FindWithTag("Player").transform.position = Vector3.zero;

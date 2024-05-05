@@ -15,16 +15,17 @@ public class loadLevel : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
+            //
             GameObject.FindWithTag("LevelCheckpoint").SetActive(false);
             transition = GameObject.FindWithTag("Transition").GetComponent<Animator>();
             StartCoroutine(loadScene(scene,other));
         }
-
     }
 
 
     IEnumerator loadScene(int level, Collider2D other)
     {
+        // begins transition animation. Player health set to max, player position set to 0 and next scene loaded while screen is black.
         transition.SetTrigger("loadOut");
         yield return new WaitForSeconds(1);
         other.transform.position = Vector3.zero;

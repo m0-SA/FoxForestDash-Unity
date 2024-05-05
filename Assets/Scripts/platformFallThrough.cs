@@ -8,11 +8,6 @@ public class platformFallThrough : MonoBehaviour
 
     [SerializeField]
     float fallTime = 0.2f;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
 
     private void Update()
     {
@@ -24,6 +19,7 @@ public class platformFallThrough : MonoBehaviour
 
     IEnumerator platformFall()
     {
+        // temp disable collider to allow player fall.
         GetComponent<BoxCollider2D>().enabled = false;
         yield return new WaitForSeconds(fallTime);
         GetComponent<BoxCollider2D>().enabled = true;

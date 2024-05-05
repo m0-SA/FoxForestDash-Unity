@@ -27,7 +27,7 @@ public class dashUnlock : MonoBehaviour
         TextMeshProUGUI dashText = GameObject.FindWithTag("DashText").GetComponent<TextMeshProUGUI>();
         dashText.text = "Dash Available";
         dashText.color = Color.green;
-        // removes dash unlock collectable
+        // removes dash unlock collectable interact. Only destroy once text is cleared.
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         gameObject.GetComponent<CircleCollider2D>().enabled = false;
         yield return new WaitForSeconds(3f);

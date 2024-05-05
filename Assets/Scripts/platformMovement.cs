@@ -17,6 +17,7 @@ public class Movement : MonoBehaviour
     {
         transform.position = points[0].position;
     }
+
     // Update is called once per frame
     void Update()
     {

@@ -19,11 +19,14 @@ public class platformFalling : MonoBehaviour
 
     IEnumerator platformFalls()
     {
-    
+        //disabling and enabling platforms.
         yield return new WaitForSeconds(disableDelay);
+
         gameObject.GetComponent<SpriteRenderer>().enabled = false;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
+
         yield return new WaitForSeconds(enableDelay);
+
         gameObject.GetComponent<SpriteRenderer>().enabled = true;
         gameObject.GetComponent<BoxCollider2D>().enabled = true;
     }

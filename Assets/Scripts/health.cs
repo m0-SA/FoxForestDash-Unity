@@ -33,12 +33,11 @@ public class health : MonoBehaviour
     }
 
     // Update is called once per frame
-
     public void damage()
     {
         playerHealth -= 1;
 
-        // send players back to level start checkpoint
+        // send players back to level start checkpoint if health hits zero
         if (playerHealth <= 0) 
         {
             GameObject player = GameObject.FindWithTag("Player");
