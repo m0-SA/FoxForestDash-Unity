@@ -16,6 +16,8 @@ public class healthUI : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
+        //intergrates heart UI from https://www.youtube.com/watch?v=uqGkNTFzYXM
         healthVal = health.Instance.playerHealth;
         maxHealth = health.Instance.maxHealth;
 

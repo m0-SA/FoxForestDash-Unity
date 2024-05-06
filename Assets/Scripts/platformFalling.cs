@@ -11,6 +11,8 @@ public class platformFalling : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
+        // Platforms will only disappear if player is grounded
         if (collision.gameObject.CompareTag("Player") && PlayerController.Instance.isGrounded()) {
             collision.transform.SetParent(null);
             StartCoroutine(platformFalls());

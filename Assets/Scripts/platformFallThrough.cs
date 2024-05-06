@@ -24,6 +24,4 @@ public class platformFallThrough : MonoBehaviour
         yield return new WaitForSeconds(fallTime);
         GetComponent<BoxCollider2D>().enabled = true;
     }
-
-
 }
