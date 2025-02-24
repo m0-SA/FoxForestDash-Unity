@@ -116,7 +116,7 @@ public class PlayerController : MonoBehaviour
         else
         {
             animator.SetTrigger("jump");
-            // knockback intergrated from https://www.youtube.com/watch?v=0u2R9MDi-_w
+ 
             // if collision from right, move to left and vice versa
             if (knockbackDirection)
             {
@@ -161,7 +161,7 @@ public class PlayerController : MonoBehaviour
             jbCounter -= Time.deltaTime;
         }
 
-        // jump buffer and coyote time intergration from https://www.youtube.com/watch?v=RFix_Kg2Di0
+
         // does the player have a jump buffer?
         if (jbCounter > 0f)
         {
@@ -239,7 +239,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    // Dashing ability intergrated from https://www.youtube.com/watch?v=2kFGmuPHiA0
+
     private IEnumerator RollingDash()
     {       
         canRollDash = false;

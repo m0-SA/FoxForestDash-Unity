@@ -17,7 +17,7 @@ public class healthUI : MonoBehaviour
     void Update()
     {
 
-        //intergrates heart UI from https://www.youtube.com/watch?v=uqGkNTFzYXM
+
         healthVal = health.Instance.playerHealth;
         maxHealth = health.Instance.maxHealth;
 
